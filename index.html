@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bisu Ghalan - AI & Programming Enthusiast</title>
+    <!-- Tailwind CSS CDN --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter --><link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom gradient text */
+        .gradient-text {
+            background: linear-gradient(90deg, #818cf8, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        /* Interactive background gradient for Hero */
+        .hero-bg {
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(192, 132, 252, 0.15), transparent 40%);
+            transition: background 0.3s ease;
+        }
+
+        /* Project card hover effect */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4), 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85); /* Darker overlay */
+            backdrop-filter: blur(8px); /* Stronger blur */
+            -webkit-backdrop-filter: blur(8px);
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem;
+        }
+        
+        .project-card:hover .card-overlay {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-card img {
+            transition: transform 0.4s ease;
+        }
+        
+        .project-card:hover img {
+            transform: scale(1.03); /* Slightly less zoom */
+        }
+
+        /* Scroll-in animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Custom modal backdrop */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.75); /* Darker backdrop */
+            backdrop-filter: blur(12px); /* Stronger blur */
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #6d28d9; /* A bit more vibrant purple */
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7c3aed;
+        }
+    </style>
+</head>
+<body class="overflow-x-hidden">
+
+    <!-- Header --><header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
+        <nav class="container mx-auto max-w-6xl px-6 py-5 flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold gradient-text">Bisu Ghalan</a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="#home" class="text-gray-300 hover:text-white transition-colors">Home</a>
+                <a href="#projects" class="text-gray-300 hover:text-white transition-colors">Projects</a>
+                <a href="#about" class="text-gray-300 hover:text-white transition-colors">About</a>
+                <a href="#contact" class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-5 py-2 rounded-lg transition-all shadow-md hover:shadow-lg">Contact</a>
+            </div>
+            <!-- Mobile Menu Button --><button id="mobile-menu-btn" class="md:hidden z-50 p-2 rounded-md hover:bg-gray-800 transition-colors">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Mobile Menu (Hidden by default) --><div id="mobile-menu" class="fixed inset-0 bg-gray-900/95 backdrop-blur-lg z-40 flex flex-col items-center justify-center space-y-8 text-2xl transform -translate-x-full transition-transform duration-300 md:hidden">
+        <a href="#home" class="text-gray-300 hover:text-white transition-colors mobile-link">Home</a>
+        <a href="#projects" class="text-gray-300 hover:text-white transition-colors mobile-link">Projects</a>
+        <a href="#about" class="text-gray-300 hover:text-white transition-colors mobile-link">About</a>
+        <a href="#contact" class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-6 py-3 rounded-lg text-lg transition-all shadow-md">Contact</a>
+    </div>
+
+    <!-- Main Content --><main>
+        
+        <!-- Hero Section --><section id="home" class="h-screen min-h-[700px] flex items-center justify-center text-center p-6 hero-bg relative overflow-hidden">
+            <div class="z-10 reveal visible max-w-4xl mx-auto">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black mb-4 animate-fade-in-up">
+                    Hello, I'm <span class="gradient-text">Bisu Ghalan</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-indigo-200 font-light max-w-3xl mx-auto mb-8 animate-fade-in-up delay-200">
+                    A <span class="font-medium text-white">beginner Programming</span> & <span class="font-medium text-white">AI Enthusiast</span> from Nepal, eager to learn and build impactful solutions.
+                </p>
+                <a href="#projects" class="bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg shadow-indigo-600/40 animate-fade-in-up delay-400">
+                    Explore My Work
+                </a>
+            </div>
+        </section>
+
+        <!-- Projects Section --><section id="projects" class="py-24 px-6">
+            <div class="container mx-auto max-w-6xl">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">My <span class="gradient-text">Projects</span></h2>
+                    <p class="text-lg text-gray-400 max-w-2xl mx-auto">Here are a few things I've built, deployed, and learned from. Click to see details.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project Card 1: DearMocoBot --><div class="project-card bg-gray-900 rounded-xl shadow-xl reveal cursor-pointer" 
+                         data-title="Telegram Bot: DearMocoBot"
+                         data-image="https://via.placeholder.com/600x400/1e1b4b/c084fc?text=DearMocoBot+Screenshot"
+                         data-tags="Python,Pyrogram,AI,Koyeb"
+                         data-desc="A Telegram bot built using Python and Pyrogram, demonstrating fundamental bot development. I gained experience in setting up bot commands, handling user interactions, and deploying the application on a cloud platform like Koyeb, ensuring continuous availability. This project provided valuable insights into external API integration and backend logic for real-time applications."
+                         data-link="https://t.me/DearMocoBot">
+                        
+                        <div class="overflow-hidden h-64 rounded-t-xl">
+                            <img src="https://via.placeholder.com/600x400/1e1b4b/c084fc?text=DearMocoBot+Screenshot" alt="DearMocoBot" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6 relative">
+                            <h3 class="text-2xl font-bold mb-2 text-white">DearMocoBot</h3>
+                            <div class="card-overlay">
+                                <h4 class="text-xl font-bold text-white mb-2">Telegram Bot: DearMocoBot</h4>
+                                <p class="text-indigo-200 mb-4">Python, Pyrogram, Koyeb</p>
+                                <button class="learn-more-btn bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-5 py-2 rounded-full transition-all">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 2: SumiVibesBot --><div class="project-card bg-gray-900 rounded-xl shadow-xl reveal cursor-pointer"
+                         data-title="Telegram Bot: SumiVibesBot"
+                         data-image="https://via.placeholder.com/600x400/4c1d95/a5b4fc?text=SumiVibesBot+Screenshot"
+                         data-tags="Python,Pyrogram,MongoDB,Render"
+                         data-desc="This Telegram bot project further developed my Python skills and experience with the Pyrogram framework. I explored deploying this bot on Render, learning about environment configuration and ensuring the bot's persistence using MongoDB for data storage. This reinforced my understanding of full-stack (albeit bot-oriented) application development and state management."
+                         data-link="https://t.me/SumiVibesBot">
+
+                        <div class="overflow-hidden h-64 rounded-t-xl">
+                            <img src="https://via.placeholder.com/600x400/4c1d95/a5b4fc?text=SumiVibesBot+Screenshot" alt="SumiVibesBot" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6 relative">
+                            <h3 class="text-2xl font-bold mb-2 text-white">SumiVibesBot</h3>
+                            <div class="card-overlay">
+                                <h4 class="text-xl font-bold text-white mb-2">Telegram Bot: SumiVibesBot</h4>
+                                <p class="text-indigo-200 mb-4">Python, Pyrogram, MongoDB</p>
+                                <button class="learn-more-btn bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-5 py-2 rounded-full transition-all">Learn More</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card 3: Personal & AI Projects (GitHub) --><div class="project-card bg-gray-900 rounded-xl shadow-xl reveal cursor-pointer"
+                         data-title="Personal & AI Projects"
+                         data-image="https://via.placeholder.com/600x400/5b21b6/f472b6?text=My+GitHub+Profile"
+                         data-tags="Python,AI,Vercel,Render,Koyeb,MongoDB"
+                         data-desc="My GitHub repository serves as a living portfolio of various personal projects, coding experiments, and early explorations into AI. It showcases my iterative learning process, version control practices, and hands-on experience with deploying diverse projects on platforms like Vercel, Render, and Koyeb, often utilizing MongoDB for data persistence."
+                         data-link="https://github.com/BisuG">
+
+                        <div class="overflow-hidden h-64 rounded-t-xl">
+                            <img src="https://via.placeholder.com/600x400/5b21b6/f472b6?text=My+GitHub+Profile" alt="Personal Projects" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-6 relative">
+                            <h3 class="text-2xl font-bold mb-2 text-white">Personal & AI Projects</h3>
+                            <div class="card-overlay">
+                                <h4 class="text-xl font-bold text-white mb-2">Personal & AI Projects</h4>
+                                <p class="text-indigo-200 mb-4">Python, AI, Deployment</p>
+                                <button class="learn-more-btn bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-5 py-2 rounded-full transition-all">Visit GitHub</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Section --><section id="about" class="py-24 px-6 bg-gray-900">
+            <div class="container mx-auto max-w-6xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="reveal">
+                        <!-- Replace with your actual profile picture --><img src="https://via.placeholder.com/600x600/1f2937/c4b5fd?text=Your+Profile+Pic" alt="Bisu Ghalan Profile" class="rounded-full shadow-2xl w-full max-w-md mx-auto aspect-square object-cover border-4 border-indigo-600">
+                    </div>
+                    <div class="reveal">
+                        <h2 class="text-4xl md:text-5xl font-bold mb-6"><span class="gradient-text">About</span> Me</h2>
+                        <p class="text-lg text-gray-300 mb-6 leading-relaxed">
+                            I'm Bisu Ghalan, an aspiring **Programming & AI Enthusiast** from Nepal. Fresh from completing my +2 in Management with Computer Science, I'm now channeling my curiosity into building functional applications and exploring the exciting world of artificial intelligence. My passion lies in understanding how things work and creating solutions from the ground up.
+                        </p>
+                        <p class="text-lg text-gray-300 mb-8 leading-relaxed">
+                            My journey has included hands-on experience in Python for crafting Telegram bots, and I've actively engaged with modern deployment platforms like **Vercel, Render, and Koyeb**, along with database management using **MongoDB**. I thrive on challenges, learning new technologies, and transforming ideas into tangible projects. My <a href="https://github.com/BisuG" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:underline">GitHub</a> is a testament to my ongoing learning and practical application of coding principles.
+                        </p>
+                        
+                        <!-- Core Skills --><h3 class="text-2xl font-bold text-white mb-4">Core Skills</h3>
+                        <div class="flex flex-wrap gap-3 mb-8">
+                            <span class="bg-indigo-500/20 text-indigo-300 px-4 py-2 rounded-full text-sm font-medium">Python (Beginner)</span>
+                            <span class="bg-indigo-500/20 text-indigo-300 px-4 py-2 rounded-full text-sm font-medium">AI Concepts</span>
+                            <span class="bg-indigo-500/20 text-indigo-300 px-4 py-2 rounded-full text-sm font-medium">Pyrogram</span>
+                            <span class="bg-indigo-500/20 text-indigo-300 px-4 py-2 rounded-full text-sm font-medium">Vercel</span>
+                            <span class="bg-indigo-500/20 text-indigo-300 px-4 py-2 rounded-full text-sm font-medium">Render</span>
+                            <span class="bg-indigo-500/20 text-indigo-300 px-4 py-2 rounded-full text-sm font-medium">Koyeb</span>
+                            <span class="bg-indigo-500/20 text-indigo-300 px-4 py-2 rounded-full text-sm font-medium">MongoDB</span>
+                            <span class="bg-indigo-500/20 text-indigo-300 px-4 py-2 rounded-full text-sm font-medium">Microsoft Office Suite</span>
+                        </div>
+
+                        <!-- Education & Training --><h3 class="text-2xl font-bold text-white mb-4">Education & Training</h3>
+                        <div class="space-y-4 mb-8">
+                            <div class="bg-gray-800 p-4 rounded-lg shadow-inner">
+                                <h4 class="font-bold text-lg text-white">+2 (Management w/ Computer Science)</h4>
+                                <p class="text-indigo-300">Janapremi World School (Academic Years: 2079 - 2080 BS)</p>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-lg shadow-inner">
+                                <h4 class="font-bold text-lg text-white">Secondary Education Examination (SEE)</h4>
+                                <p class="text-indigo-300">Heritage English Boarding School (Finished: 2078 BS)</p>
+                            </div>
+                            <div class="bg-gray-800 p-4 rounded-lg shadow-inner">
+                                <h4 class="font-bold text-lg text-white">Certificate in Office Package</h4>
+                                <p class="text-indigo-300">Shrestha Institute (May - August 2022)</p>
+                            </div>
+                        </div>
+
+                        <!-- Current Learning & Future Goals --><h3 class="text-2xl font-bold text-white mb-4">Current Learning & Future Goals</h3>
+                        <p class="text-lg text-gray-300 leading-relaxed">
+                            I'm currently preparing for my Bachelor's degree and focused on deepening my understanding of core computer science concepts. My immediate goals include mastering Data Structures and Algorithms, exploring more advanced AI/ML frameworks, and diving into full-stack web development to expand my project capabilities.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section --><section id="contact" class="py-24 px-6">
+            <div class="container mx-auto max-w-3xl text-center">
+                <div class="reveal">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">Get In <span class="gradient-text">Touch</span></h2>
+                    <p class="text-lg text-gray-400 max-w-xl mx-auto mb-12">
+                        I'm actively looking for opportunities to learn, collaborate, and contribute. Feel free to connect or ask me anything!
+                    </p>
+                    <!-- Direct Email Link --><a href="mailto:your-email@example.com" 
+                       class="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg shadow-indigo-600/40">
+                        Email Me Directly
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer --><footer class="py-12 bg-gray-900 border-t border-gray-800">
+        <div class="container mx-auto max-w-6xl px-6 text-center text-gray-500">
+            <div class="flex justify-center space-x-6 mb-6">
+                <!-- GitHub --><a href="https://github.com/BisuG" target="_blank" rel="noopener noreferrer" class="hover:text-indigo-400 transition-colors">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.26.793-.577v-2.034c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.085 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.565 21.795 24 17.3 24 12 24 5.373 18.627 0 12 0z"/></svg>
+                </a>
+                <!-- Telegram --><a href="https://t.me/uraniumchan" target="_blank" rel="noopener noreferrer" class="hover:text-indigo-400 transition-colors">
+                    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zM18 7.4c-.1.1-.1.1-.2.2l-2.6 2.5c-.3.3-.6.6-.9.9l-2.4 2.4c-.2.2-.4.4-.7.4-.3 0-.5-.1-.7-.4l-1.6-1.6-3.5-1.1c-.4-.1-.4-.5 0-.6l14.3-5.5c.3-.1.5.1.4.4l-2.3 11.1c0 .2-.1.3-.3.3-.2 0-.3-.1-.4-.2l-3.2-3.2-1.9 1.8c-.2.2-.4.3-.6.3-.2 0-.4-.1-.6-.2l.2-6.5 5-4.6c.1-.1 0-.3-.1-.2z"/></svg>
+                </a>
+            </div>
+            <p>&copy; <span id="current-year"></span> Bisu Ghalan. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- Project Modal --><div id="project-modal" class="fixed inset-0 z-50 flex items-center justify-center p-6 hidden modal-backdrop">
+        <div class="bg-gray-800 w-full max-w-4xl max-h-[90vh] rounded-xl shadow-2xl overflow-hidden flex flex-col">
+            <!-- Modal Header --><div class="flex justify-between items-center p-5 border-b border-gray-700 bg-gray-700">
+                <h3 id="modal-title" class="text-2xl font-bold text-white">Project Title</h3>
+                <button id="modal-close-btn" class="text-gray-300 hover:text-white transition-colors p-2 rounded-full hover:bg-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Modal Body --><div class="overflow-y-auto p-8">
+                <img id="modal-image" src="" alt="Project Image" class="w-full h-auto max-h-96 object-cover rounded-lg mb-6 border border-gray-700">
+                
+                <div class="flex flex-wrap gap-3 mb-6" id="modal-tags">
+                    <!-- Tags will be injected by JS --></div>
+                
+                <p id="modal-desc" class="text-lg text-gray-300 leading-relaxed mb-6">
+                    Project description...
+                </p>
+                
+                <a id="modal-link" href="#" target="_blank" rel="noopener noreferrer" class="inline-block bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 transform hover:scale-105 shadow-lg">
+                    View Project
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+
+            // --- Interactive Hero Background ---
+            const hero = document.querySelector('.hero-bg');
+            if(hero) {
+                hero.addEventListener('mousemove', (e) => {
+                    const rect = hero.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    hero.style.setProperty('--x', `${(x / rect.width) * 100}%`);
+                    hero.style.setProperty('--y', `${(y / rect.height) * 100}%`);
+                });
+            }
+
+            // --- Sticky Navbar Background on Scroll ---
+            const navbar = document.getElementById('navbar');
+            if(navbar) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 50) {
+                        navbar.classList.add('bg-gray-900/80', 'backdrop-blur-lg', 'shadow-lg');
+                    } else {
+                        navbar.classList.remove('bg-gray-900/80', 'backdrop-blur-lg', 'shadow-lg');
+                    }
+                });
+            }
+
+            // --- Mobile Menu Toggle ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileLinks = document.querySelectorAll('.mobile-link');
+
+            if(mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.toggle('-translate-x-full');
+                    // Toggle an icon change for better UX if using an SVG icon that can animate
+                });
+                
+                // Close menu when a link is clicked
+                mobileLinks.forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.add('-translate-x-full');
+                    });
+                });
+            }
+
+            // --- Scroll-in Animations ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // No unobserve, keep animations for dynamic content (optional)
+                        // If you want it to only animate once, uncomment the line below:
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            revealElements.forEach(el => {
+                revealObserver.observe(el);
+            });
+
+            // --- Project Modal Logic ---
+            const modal = document.getElementById('project-modal');
+            const modalCloseBtn = document.getElementById('modal-close-btn');
+            const projectCards = document.querySelectorAll('.project-card');
+
+            const modalTitle = document.getElementById('modal-title');
+            const modalImage = document.getElementById('modal-image');
+            const modalTags = document.getElementById('modal-tags');
+            const modalDesc = document.getElementById('modal-desc');
+            const modalLink = document.getElementById('modal-link');
+
+            if(modal && modalCloseBtn && projectCards.length > 0) {
+                projectCards.forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        // Ensure click is not on the image directly or other non-card part that might interfere
+                        if (!e.target.closest('a')) { // Prevent closing if click is on a link inside the card
+                            // 1. Get data from data-* attributes
+                            const title = card.dataset.title;
+                            const image = card.dataset.image;
+                            const tags = card.dataset.tags.split(',');
+                            const desc = card.dataset.desc;
+                            const link = card.dataset.link;
+                            
+                            // 2. Populate modal
+                            modalTitle.textContent = title;
+                            modalImage.src = image;
+                            modalImage.alt = title;
+                            modalDesc.textContent = desc;
+                            modalLink.href = link;
+                            
+                            // Clear and populate tags
+                            modalTags.innerHTML = '';
+                            tags.forEach(tag => {
+                                const tagEl = document.createElement('span');
+                                tagEl.className = 'bg-indigo-500/20 text-indigo-300 px-3 py-1 rounded-full text-sm font-medium';
+                                tagEl.textContent = tag.trim();
+                                modalTags.appendChild(tagEl);
+                            });
+
+                            // 3. Show modal
+                            modal.classList.remove('hidden');
+                            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+                        }
+                    });
+                });
+
+                // Function to close modal
+                const closeModal = () => {
+                    modal.classList.add('hidden');
+                    document.body.style.overflow = 'auto';
+                };
+
+                // Close modal on button click
+                modalCloseBtn.addEventListener('click', closeModal);
+                
+                // Close modal on backdrop click
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) { // Only close if clicking on the actual backdrop, not modal content
+                        closeModal();
+                    }
+                });
+            }
+
+            // --- Set Current Year in Footer ---
+            const yearSpan = document.getElementById('current-year');
+            if(yearSpan) {
+                yearSpan.textContent = new Date().getFullYear();
+            }
+
+        });
+    </script>
+</body>
+</html>
+ 
